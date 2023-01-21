@@ -14,7 +14,7 @@ const Tabs = ({ onTextArea, promptText, imageUrl, imageAltText }) => {
   };
 
   const callImageUpload = async (value) => {
-    console.log("Image link from upload child component:", value);
+    // console.log("Image link from upload child component:", value);
 
     // Call API Route with Cloudinary secure_url
     const response = await fetch("/api/imageUpload", {
@@ -32,9 +32,7 @@ const Tabs = ({ onTextArea, promptText, imageUrl, imageAltText }) => {
   };
 
   const callGenerateEndpoint = async () => {
-    setIsGenerating(true);
     generateCaption(userInputText).then((result) => onTextArea(result));
-    setIsGenerating(false);
     promptText(userInputText);
   };
 

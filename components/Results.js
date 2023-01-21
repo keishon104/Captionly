@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import generateCaption from "../utils/generateCaption";
 import Image from "next/image";
 
@@ -7,6 +7,7 @@ const Results = ({ apiOutput, promptInput, imageURL, imageDescription }) => {
   const [results, setResults] = useState(apiOutput);
   const src = imageURL;
 
+  // console.log({ apiOutput });
   // Return new caption after feedback.
   const callGenerateEndpoint = async () => {
     if (imageURL) {
@@ -15,6 +16,10 @@ const Results = ({ apiOutput, promptInput, imageURL, imageDescription }) => {
       generateCaption(promptInput).then((result) => setResults(result));
     }
   };
+
+  useEffect(() => {
+    setResults(apiOutput);
+  }, [apiOutput]);
 
   const positiveFeedback = async (prompt, result) => {
     console.log("Thank you for your feedback");

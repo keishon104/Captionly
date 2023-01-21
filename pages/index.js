@@ -20,39 +20,15 @@ export default function Home() {
   const [apiChildOutput, setApiChildOutput] = useState("");
   const [promptInput, setPromptInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
   const [imageDescriptionText, setImageDescriptonText] = useState("");
-
-  const callReGenerateEndpoint = async () => {
-    setIsGenerating(true);
-    generateCaption(promptInput).then((result) => setApiChildOutput(result));
-    // setApiChildOutput(data);
-    setIsGenerating(false);
-  };
 
   const apiOutputCallback = (value) => {
     setApiChildOutput(value);
   };
 
   const promptInputCallback = (value) => {
-    console.log("Value from input text: ", value);
+    // console.log("Value from input text: ", value);
     setPromptInput(value);
-  };
-
-  const positiveFeedback = async (prompt, result) => {
-    console.log("Thank you for your feedback");
-    const formattedData = {
-      prompt: `Give me a one of a kind Instagram caption inspired by ${prompt}`,
-      completion: result,
-    };
-    const response = await fetch("/api/feedback", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formattedData),
-    });
-    callReGenerateEndpoint();
   };
 
   const imageUploadUrl = (value) => {
@@ -63,11 +39,9 @@ export default function Home() {
     // console.log("Description of image recieved from child: ", imageDescription);
     setImageDescriptonText(imageDescription);
 
-    // setIsGenerating(true);
     generateCaption(imageDescription).then((result) =>
       setApiChildOutput(result)
     );
-    // setIsGenerating(false);
   };
   return (
     <div className="bg-white">
@@ -96,7 +70,7 @@ export default function Home() {
                       What's new
                     </span> */}
                     <span className="inline-flex items-center space-x-1 text-sm font-medium text-indigo-600">
-                      <a href="https://github.com/keishon104/gpt3-writer-starter/commits/main">
+                      <a href="https://github.com/keishon104/captionly/commits/main">
                         Version 0.3.0
                       </a>
                       <ChevronRightIcon
@@ -121,7 +95,7 @@ export default function Home() {
                 </div>
                 <div className="mt-20">
                   <Tabs
-                    onTextArea={apiOutputCallback} // Output fom OpenAI call.
+                    onTextArea={apiOutputCallback} // Output fom OpenAI call. Inital Call.
                     promptText={promptInputCallback} // Text entered into TextArea component
                     imageUrl={imageUploadUrl} //Url returned from image upload.
                     imageAltText={imageUploadCaptionGenerate} //Image to text alt text
@@ -171,10 +145,10 @@ export default function Home() {
             <div className="relative pl-4 sm:mx-auto sm:max-w-3xl sm:px-0 lg:h-full lg:max-w-none lg:pl-12">
               {apiChildOutput ? (
                 <Results
-                  apiOutput={apiChildOutput}
-                  promptInput={promptInput}
-                  imageURL={imageURL}
-                  imageDescription={imageDescriptionText}
+                  apiOutput={apiChildOutput} // Results from the OpenAI call
+                  promptInput={promptInput} // Text from TextArea component
+                  imageURL={imageURL} // URL of image uploaded
+                  imageDescription={imageDescriptionText} // Description of the image
                 />
               ) : (
                 <div className="">
