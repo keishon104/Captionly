@@ -2,13 +2,6 @@ import prisma from "../../lib/prisma";
 
 export default async function addFeedback(req, res) {
   const { method } = req;
-
-  //   const feedback = await prisma.Model.create({
-  //     data: {
-  //       data: JSON.stringify(req.body),
-  //     },
-  //   });
-  //   console.log(req.body);
   try {
     const addFeedback = await prisma.Model.create({
       data: {
